@@ -1,2 +1,4 @@
 from .peer import Peer
 from .punch import HolePuncher
+
+__all__ = ['Peer', 'HolePuncher']

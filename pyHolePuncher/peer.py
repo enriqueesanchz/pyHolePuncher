@@ -6,7 +6,7 @@ from enum import Enum
 import secrets
 import socket
 from typing import List
-from punch import HolePuncher
+from pyHolePuncher.punch import HolePuncher
 
 class WrongResponseCode(Exception):
     pass
