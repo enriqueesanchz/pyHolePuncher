@@ -2,7 +2,9 @@
 
 from pytest import mark
 from pyHolePuncher.peer import Peer, NatType
+from pyHolePuncher.punch import HolePuncher
 import requests
+
 
 def test_peer_init():
     peer = Peer()
@@ -26,14 +28,18 @@ def test_peer_getIp():
 def test_peer_stun():
     pass
 
-@mark.notwritten
 def test_peer_addHolePuncher():
-    pass
+    puncher = HolePuncher()
+    peer = Peer()
+    peer.addHolePuncher(puncher)
+    assert puncher in peer.hole_punchers
 
-@mark.notwritten
 def test_peer_addCandidate():
-    pass
+    candidate = ("47.12.14.18", 5555)
+    peer = Peer()
+    peer.addCandidate(candidate)
+    assert candidate in peer.candidates
 
-@mark.notwritten
+@mark.notimplemented
 def test_peer_connect():
     pass

@@ -65,8 +65,7 @@ class Peer():
         resultSet = tuple(set(results.values()))
         return resultSet
     
-    def addHolePuncher(self):
-        puncher = HolePuncher()
+    def addHolePuncher(self, puncher: HolePuncher):
         self.hole_punchers.append(puncher)
         self.ports.append((puncher.getInternalPort(), puncher.getExternalPorts()))
 
