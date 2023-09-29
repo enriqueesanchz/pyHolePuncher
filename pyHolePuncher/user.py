@@ -8,12 +8,12 @@ class NatType(Enum):
     EndpointIndependent = 1
     EndpointDependent = 2
 
-class Peer():
+class User():
 
     _TIMEOUT = 10
 
     def __init__(self):
-        """Init peer with IP and NatType set"""
+        """Init user with IP and NatType set"""
         self.ip: str = self.getIp()
         self.nat: NatType = self.getNatType()
         self.ports: List[tuple] = []
