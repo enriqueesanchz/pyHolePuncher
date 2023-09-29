@@ -1,7 +1,11 @@
 import socket
+import time
 from typing import List
+from pyHolePuncher.stun import stun
 
 class HolePuncher():
+
+    _TIMEOUT: int = 5
 
     def __init__(self):
         """Init random socket"""
@@ -11,7 +15,7 @@ class HolePuncher():
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.sock.settimeout(5)
+        self.sock.settimeout(self._TIMEOUT)
         self.sock.bind(('0.0.0.0', 0))
         
         self.port = self.sock.getsockname()[1]
@@ -22,7 +26,8 @@ class HolePuncher():
 
     def getExternalPorts(self) -> tuple:
         """Get NAT port translation from stun servers"""
-        pass
+        ip_port = stun(self.sock)
+        return [x[1] for x in ip_port]
     
     def addDestination(self, dst: tuple) -> List[tuple]:
         """Add destionation to the list"""
@@ -39,6 +44,16 @@ class HolePuncher():
         self.destinations.clear()
         return self.destinations
 
-    def punch(self):
+    def punch(self, tries: int = 10) -> tuple:
         """Try to hole punch destination"""
-        pass
+        for _ in range(tries):
+            for dst in self.destinations:
+                self.sock.sendto(b'ping', (dst[0], dst[1]))
+            time.sleep(1)
+        
+        try:
+            _, addr = self.sock.recvfrom(1024)
+            return addr
+        except socket.timeout as e:
+            print(e)
+            return ()

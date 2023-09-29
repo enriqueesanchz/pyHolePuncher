@@ -10,6 +10,8 @@ class NatType(Enum):
 
 class Peer():
 
+    _TIMEOUT = 10
+
     def __init__(self):
         """Init peer with IP and NatType set"""
         self.ip: str = self.getIp()
@@ -23,7 +25,7 @@ class Peer():
         """Get NatType from stun server"""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.settimeout(10) #TODO: TIMEOUT const
+        sock.settimeout(self._TIMEOUT)
         ip_port = stun(sock)
         sock.close()
         if(len(ip_port) == 1):
@@ -35,7 +37,7 @@ class Peer():
         """Get IP from stun server"""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.settimeout(10) #TODO: TIMEOUT const    
+        sock.settimeout(self._TIMEOUT)    
         ip_port = stun(sock)
         sock.close()
         return ip_port[0][0]
