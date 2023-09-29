@@ -24,9 +24,6 @@ def test_peer_getIp():
     ip = requests.get('https://api.ipify.org').content.decode('utf8')
     assert peer.getIp() == ip
 
-@mark.notwritten
-def test_peer_stun():
-    pass
 
 def test_peer_addHolePuncher():
     peer = Peer()
