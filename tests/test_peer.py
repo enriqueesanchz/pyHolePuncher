@@ -29,10 +29,12 @@ def test_peer_stun():
     pass
 
 def test_peer_addHolePuncher():
-    puncher = HolePuncher()
     peer = Peer()
-    peer.addHolePuncher(puncher)
+    puncher = peer.addHolePuncher()
     assert puncher in peer.hole_punchers
+    
+    ports = (puncher.getInternalPort(), puncher.getExternalPorts())
+    assert ports in peer.ports
 
 def test_peer_addCandidate():
     candidate = ("47.12.14.18", 5555)

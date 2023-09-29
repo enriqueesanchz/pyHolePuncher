@@ -62,12 +62,15 @@ class Peer():
             else:
                 raise WrongResponseCode
         
+        sock.close()        
         resultSet = tuple(set(results.values()))
         return resultSet
     
-    def addHolePuncher(self, puncher: HolePuncher):
+    def addHolePuncher(self) -> HolePuncher:
+        puncher = HolePuncher()
         self.hole_punchers.append(puncher)
         self.ports.append((puncher.getInternalPort(), puncher.getExternalPorts()))
+        return puncher
 
     def addCandidate(self, candidate: tuple):
         """Add a posible candidate (ip, port) for conexion"""
