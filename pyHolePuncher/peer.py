@@ -9,17 +9,15 @@ class NatType(Enum):
     EndpointDependent = 2
 
 class Peer():
-    ip: str
-    ports: List[tuple] = []
-    nat: NatType
-    hole_punchers: List[HolePuncher] = []
-    candidates: List[tuple] = []
-    connected: List[tuple] = []
 
     def __init__(self):
         """Init peer with IP and NatType set"""
-        self.ip = self.getIp()
-        self.nat = self.getNatType()
+        self.ip: str = self.getIp()
+        self.nat: NatType = self.getNatType()
+        self.ports: List[tuple] = []
+        self.hole_punchers: List[HolePuncher] = []
+        self.candidates: List[tuple] = []
+        self.connected: List[tuple] = []
 
     def getNatType(self) -> NatType:
         """Get NatType from stun server"""
