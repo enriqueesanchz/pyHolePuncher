@@ -1,15 +1,9 @@
-BIND_REQUEST_MSG = b'\x00\x01'
-BIND_RESPONSE_MSG = b'\x01\x01'
-STUN_SERVERS=['stun.l.google.com', 'stun1.l.google.com']
-
 from enum import Enum
 import secrets
 import socket
 from typing import List
 from pyHolePuncher.punch import HolePuncher
-
-class WrongResponseCode(Exception):
-    pass
+from pyHolePuncher.stun import stun
 
 class NatType(Enum):
     EndpointIndependent = 1
@@ -28,43 +22,23 @@ class Peer():
         self.nat = self.getNatType()
 
     def getNatType(self) -> NatType:
-        stun = self.stun(STUN_SERVERS)
-        if(len(stun) == 1):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.settimeout(10) #TODO: TIMEOUT const
+        ip_port = stun(sock)
+        sock.close()
+        if(len(ip_port) == 1):
             return NatType.EndpointIndependent
         else:
             return NatType.EndpointDependent
         
     def getIp(self) -> str:
-        stun = self.stun(STUN_SERVERS)
-        return stun[0][0]
-
-    def stun(self, stun_servers: List[str]):
-        """Get ip+port from stun server"""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.settimeout(10) #TODO: TIMEOUT const
-        send_data = b''
-        msg_len = len(send_data).to_bytes(2, byteorder='big')
-        trans_id = secrets.randbits(128).to_bytes(16, byteorder='big')
-        data = BIND_REQUEST_MSG+msg_len+trans_id+send_data
-
-        results = {}
-
-        for stun_server in stun_servers:
-            sock.sendto(data, (stun_server, 19302))
-            recv, _ = sock.recvfrom(2048)
-            recvHex = recv.hex()
-
-            if(recv[:2] == BIND_RESPONSE_MSG):
-                ip = "{}.{}.{}.{}".format(int(recvHex[-8:-6], 16),int(recvHex[-6:-4], 16),int(recvHex[-4:-2], 16),int(recvHex[-2:], 16))
-                port = int(recvHex[-12:-8], 16)
-                results[stun_server] = (ip, port)
-            else:
-                raise WrongResponseCode
-        
-        sock.close()        
-        resultSet = tuple(set(results.values()))
-        return resultSet
+        sock.settimeout(10) #TODO: TIMEOUT const    
+        ip_port = stun(sock)
+        sock.close()
+        return ip_port[0][0]
     
     def addHolePuncher(self) -> HolePuncher:
         puncher = HolePuncher()
