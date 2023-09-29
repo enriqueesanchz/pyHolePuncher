@@ -23,7 +23,6 @@ def test_punch_add_dst():
     dst = ("10.10.10.10", 5555)
     puncher.addDestination(dst)
     assert dst in puncher.destinations
-    puncher.cleanDestination()
 
 def test_punch_remove_dst():
     puncher = HolePuncher()
@@ -36,7 +35,6 @@ def test_punch_remove_dst():
     puncher.removeDestination(dst)
     print(puncher.destinations)
     assert dst not in puncher.destinations
-    puncher.cleanDestination()
 
 def test_punch_clean_dst():
     puncher = HolePuncher()
