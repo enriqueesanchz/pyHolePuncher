@@ -3,10 +3,8 @@ import socket
 from typing import List
 from pyHolePuncher.punch import HolePuncher
 from pyHolePuncher.stun import stun
+from pyHolePuncher.rendezvous import NatType
 
-class NatType(Enum):
-    EndpointIndependent = 1
-    EndpointDependent = 2
 
 class User():
 

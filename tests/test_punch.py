@@ -2,7 +2,6 @@
 
 import socket
 import concurrent.futures
-from pytest import mark
 from pyHolePuncher.punch import HolePuncher
 from pyHolePuncher.stun import stun
 
