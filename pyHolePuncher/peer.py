@@ -1,5 +1,4 @@
 from enum import Enum
-import secrets
 import socket
 from typing import List
 from pyHolePuncher.punch import HolePuncher
@@ -18,10 +17,12 @@ class Peer():
     connected: List[tuple] = []
 
     def __init__(self):
+        """Init peer with IP and NatType set"""
         self.ip = self.getIp()
         self.nat = self.getNatType()
 
     def getNatType(self) -> NatType:
+        """Get NatType from stun server"""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.settimeout(10) #TODO: TIMEOUT const
@@ -33,6 +34,7 @@ class Peer():
             return NatType.EndpointDependent
         
     def getIp(self) -> str:
+        """Get IP from stun server"""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.settimeout(10) #TODO: TIMEOUT const    
@@ -41,13 +43,14 @@ class Peer():
         return ip_port[0][0]
     
     def addHolePuncher(self) -> HolePuncher:
+        """Add hole puncher to list"""
         puncher = HolePuncher()
         self.hole_punchers.append(puncher)
         self.ports.append((puncher.getInternalPort(), puncher.getExternalPorts()))
         return puncher
 
     def addCandidate(self, candidate: tuple):
-        """Add a posible candidate (ip, port) for conexion"""
+        """Add a possible candidate (ip, port) for conexion"""
         self.candidates.append(candidate)
 
     def connect(self, username: str):

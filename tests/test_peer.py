@@ -2,7 +2,6 @@
 
 from pytest import mark
 from pyHolePuncher.peer import Peer, NatType
-from pyHolePuncher.punch import HolePuncher
 import requests
 
 
