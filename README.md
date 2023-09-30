@@ -2,7 +2,8 @@
 Simple UDP Hole Punching library in Python
 
 # TODO:
-- [ ] Peer class
-- [ ] Hole puncher class
-- [ ] Rendezvous client
+- [ ] User class
+- [x] Hole puncher class
+- [x] Rendezvous client
+- [x] Peer class
 - [ ] Finish unit tests

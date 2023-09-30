@@ -1,9 +1,9 @@
-from enum import Enum
 import socket
 from typing import List
+import concurrent.futures
 from pyHolePuncher.punch import HolePuncher
 from pyHolePuncher.stun import stun
-from pyHolePuncher.rendezvous import NatType
+from pyHolePuncher.rendezvous import NatType, Peer
 
 
 class User():
@@ -16,8 +16,9 @@ class User():
         self.nat: NatType = self.getNatType()
         self.ports: List[tuple] = []
         self.hole_punchers: List[HolePuncher] = []
-        self.candidates: List[tuple] = []
-        self.connected: List[tuple] = []
+        self.candidates: List[Peer] = [] #TODO: use ¿?
+        self.connected: List[tuple] = [] #TODO: use ¿?
+        self.futures: List[concurrent.futures.ThreadPoolExecutor] = []
 
     def getNatType(self) -> NatType:
         """Get NatType from stun server"""
@@ -47,14 +48,34 @@ class User():
         self.ports.append((puncher.getInternalPort(), puncher.getExternalPorts()))
         return puncher
 
-    def addCandidate(self, candidate: tuple):
+    def addCandidate(self, candidate: Peer):
         """Add a possible candidate (ip, port) for conexion"""
         self.candidates.append(candidate)
 
-    def connect(self, username: str):
+    def connect(self, peer: Peer, return_dict=None) -> List[tuple]:
         """Try to connect to other peer"""
-        #Get the other peer object from rendezvous
-        #Add candidates (ip, port)
-        #Start thread trying to connect
+        if(peer.natType == NatType.EndpointIndependent):
+            #Start thread trying to connect
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                for puncher in self.hole_punchers:
+                    for port in peer.ports:
+                        puncher.addDestination((peer.ip, port))
+                    
+                    self.futures.append(executor.submit(puncher.punch))
+
+            results = []
+            for future in self.futures:
+                results.append(future.result())
+
             #When succesful add to connected (username, (ip, port))
-        pass
+            for connexion in results:
+                self.connected.append(connexion) #TODO: use ¿?
+
+            if(return_dict != None):
+                return_dict[peer.username] = results
+
+            return results
+        
+        else:
+            #TODO: implement connectivity NatType EndpointDependent
+            raise NotImplementedError
