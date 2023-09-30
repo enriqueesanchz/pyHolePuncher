@@ -84,7 +84,6 @@ class SimpleHttpRendezvous(Rendezvous):
         elif(response.status_code == 409):
             raise PeerExists
         else:
-            print(response.text)
             raise PeerNotCreated
     
     def updatePeer(self, name: str, peer: Peer) -> Namespace:
