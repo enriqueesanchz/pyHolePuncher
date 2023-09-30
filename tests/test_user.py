@@ -1,8 +1,6 @@
 # test_peer.py
 
 import multiprocessing
-import time
-from pytest import mark
 from pyHolePuncher.rendezvous import Peer
 from pyHolePuncher.user import User, NatType
 import requests
@@ -66,6 +64,5 @@ def test_user_connect():
     for proc in jobs:
         proc.join()
 
-    assert True == False
     assert return_dict["enrique"] == [("127.0.0.1", ports_enrique[0])]
     assert return_dict["guille"] == [("127.0.0.1", ports_guille[0])]
