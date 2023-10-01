@@ -1,5 +1,5 @@
 import socket
-from typing import List
+from typing import Dict, List
 import concurrent.futures
 from pyHolePuncher.punch import HolePuncher
 from pyHolePuncher.stun import stun
@@ -18,7 +18,7 @@ class User():
         self.ports: List[tuple] = []
         self.hole_punchers: List[HolePuncher] = []
         self.candidates: List[Peer] = [] #TODO: use ¿?
-        self.connected: List[tuple] = [] #TODO: use ¿?
+        self.connected: Dict[str, tuple] = {}
         self.futures: List[concurrent.futures.ThreadPoolExecutor] = []
 
     def getNatType(self) -> NatType:
@@ -69,8 +69,8 @@ class User():
                 results.append(future.result())
 
             #When succesful add to connected (username, (ip, port))
-            for connexion in results:
-                self.connected.append(connexion) #TODO: use ¿?
+            for connection in results:
+                self.connected[peer.username]=connection #TODO: daemon to maintain connections
 
             if(return_dict != None):
                 return_dict[peer.username] = results

@@ -48,12 +48,12 @@ class HolePuncher():
         """Try to hole punch destination"""
         for _ in range(tries):
             for dst in self.destinations:
-                self.sock.sendto(b'ping', (dst[0], dst[1]))
+                self.sock.sendto(b'', (dst[0], dst[1]))
             time.sleep(1)
         
         try:
             _, addr = self.sock.recvfrom(1024)
-            return addr
+            return (self.sock, addr)
         except socket.timeout as e:
             print(e)
             return ()

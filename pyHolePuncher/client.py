@@ -37,7 +37,7 @@ class Client():
             self.rooms[room] = namespace
         except PeerExists as e:
             logging.warning(f"El usuario {self.user.username} ya está en la sala {room}")
-            return self.getPeers(room)
+            return self.update(room)
         except PeerNotCreated as e:
             logging.error(f"[ERROR] No se ha podido unir a la sala {room}")
             return None
