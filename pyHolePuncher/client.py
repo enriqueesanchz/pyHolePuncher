@@ -76,7 +76,7 @@ class Client():
             if(user.username == username):
                 peer = Peer(user.username, user.ip, user.ports, user.natType)
                 ip_port = self.user.connect(peer)
-                if(ip_port != []):
+                if(ip_port != [()]):
                     return True
                 else:
                     return False

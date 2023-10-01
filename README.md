@@ -1,6 +1,14 @@
 # pyHolePuncher
 Simple UDP Hole Punching library in Python
 
+# Features
+- Create P2P apps from scratch
+- UDP Hole Punching lib
+- Rendezvous sample client (meet other peers)
+- Rendezvous sample server: https://github.com/enriqueesanchz/rendezvous
+- STUN client
+- Sample apps in examples/
+
 # TODO:
 - [x] User class
 - [x] Hole puncher class
