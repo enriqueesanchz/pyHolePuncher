@@ -18,7 +18,7 @@ class Client():
             logging.warning(f"La sala {room} ya existe")
             return self.getPeers(room)
         except NamespaceNotCreated as e:
-            logging.error(f"[ERROR] No se ha podido crear la sala {room}")
+            logging.error(f"No se ha podido crear la sala {room}")
             return None
         
         logging.info(f"Se ha creado la sala {room}")
@@ -39,7 +39,7 @@ class Client():
             logging.warning(f"El usuario {self.user.username} ya está en la sala {room}")
             return self.update(room)
         except PeerNotCreated as e:
-            logging.error(f"[ERROR] No se ha podido unir a la sala {room}")
+            logging.error(f"No se ha podido unir a la sala {room}")
             return None
         
         return namespace
@@ -49,7 +49,7 @@ class Client():
             namespace = self.rendezvous.getNamespace(room)
             self.rooms[room] = namespace
         except NamespaceNotFound as e:
-            logging.error(f"[ERROR] No se ha encontrado la sala {room}")
+            logging.error(f"No se ha encontrado la sala {room}")
             return None
         
         return namespace
@@ -66,7 +66,7 @@ class Client():
             self.rooms[room] = namespace
             return namespace
         except PeerNotUpdated as e:
-            logging.error(f"[ERROR] No se ha podido actualizar el usuario en la sala {room}")
+            logging.error(f"No se ha podido actualizar el usuario en la sala {room}")
             return None
         
     def connect(self, namespace: str, username: str) -> bool:
