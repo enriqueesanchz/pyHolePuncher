@@ -23,8 +23,8 @@ client.user.addHolePuncher()
 while True:
     # Display options to the user
     print("Select an option:")
-    print("1. Join an existing chat room")
-    print("2. Create a new chat room")
+    print("1. Create a new chat room")
+    print("2. Join an existing chat room")
     print("3. Chat to a peer")
     print("4. Exit")
 
