@@ -1,6 +1,5 @@
 #Simple chat app cli
 
-import pprint
 import sys
 import threading
 from pyHolePuncher.client import Client
@@ -47,7 +46,9 @@ while True:
 
     elif option == "3":
         client.update(room)
-        pprint.pprint(client.rooms)
+
+        for peer in client.rooms[room].peers:
+            print("*", peer.username)
 
         peer_username = input("Enter the username of the peer to chat (or '0' to go back): ")
         if peer_username == "0":
