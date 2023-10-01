@@ -55,8 +55,8 @@ class SimpleHttpRendezvous(Rendezvous):
         response = requests.get(f"{self._SERVER}/namespace/{name}")
 
         if(response.status_code == 200):
-            peers = [Peer(peer["username"], peer["ip"], peer["port"], NatType(peer["natType"])) for peer in response.json()["peers"]]
-            namespace = Namespace(response.json["name"], peers)
+            peers = [Peer(peer["username"], peer["ip"], peer["ports"], NatType(peer["natType"])) for peer in response.json()["peers"]]
+            namespace = Namespace(response.json()["name"], peers)
             return namespace
         else:
             raise NamespaceNotFound
@@ -79,7 +79,7 @@ class SimpleHttpRendezvous(Rendezvous):
 
         if(response.status_code == 201):
             peers = [Peer(peer["username"], peer["ip"], peer["ports"], NatType(peer["natType"])) for peer in response.json()["peers"]]
-            namespace = Namespace(response.json["name"], peers)
+            namespace = Namespace(response.json()["name"], peers)
             return namespace
         elif(response.status_code == 409):
             raise PeerExists
@@ -93,7 +93,7 @@ class SimpleHttpRendezvous(Rendezvous):
 
         if(response.status_code == 200):
             peers = [Peer(peer["username"], peer["ip"], peer["ports"], NatType(peer["natType"])) for peer in response.json()["peers"]]
-            namespace = Namespace(response.json["name"], peers)
+            namespace = Namespace(response.json()["name"], peers)
             return namespace
         else:
             raise PeerNotUpdated

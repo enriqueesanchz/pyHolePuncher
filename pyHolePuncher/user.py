@@ -10,8 +10,9 @@ class User():
 
     _TIMEOUT = 10
 
-    def __init__(self):
+    def __init__(self, username):
         """Init user with IP and NatType set"""
+        self.username = username
         self.ip: str = self.getIp()
         self.nat: NatType = self.getNatType()
         self.ports: List[tuple] = []
@@ -45,7 +46,7 @@ class User():
         """Add hole puncher to list"""
         puncher = HolePuncher()
         self.hole_punchers.append(puncher)
-        self.ports.append((puncher.getInternalPort(), puncher.getExternalPorts()))
+        self.ports.append((puncher.getInternalPort(), puncher.getExternalPorts())) #Future use: analyze patterns
         return puncher
 
     def addCandidate(self, candidate: Peer):
