@@ -44,7 +44,7 @@ class HolePuncher():
         self.destinations.clear()
         return self.destinations
 
-    def punch(self, tries: int = 10) -> tuple:
+    def punch(self, tries: int = 10) -> tuple: #TODO: improve algorithm
         """Try to hole punch destination"""
         for _ in range(tries):
             for dst in self.destinations:

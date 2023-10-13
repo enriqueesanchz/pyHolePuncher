@@ -9,6 +9,9 @@ Simple UDP Hole Punching library in Python
 - STUN client
 - Sample apps in examples/
 
+# Post
+You can read my blog post at https://enriqueesanchz.github.io/posts/Nat-traversal/
+
 # TODO:
 - [x] User class
 - [x] Hole puncher class
